@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<!--    配置链接数据库-->
+<configuration>
+
+
+<!--    整个mybatis框架的设置-->
+    <settings>
+<!--        日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+<!--        懒加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+    </settings>
+
+<!--    //全局导包-->
+    <typeAliases>
+        <package name="pojo"/>
+    </typeAliases>
+
+
+
+</configuration>

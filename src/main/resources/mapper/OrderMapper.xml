@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.OrderMapper">
+
+        <resultMap id="OrderMap" type="TOrders">
+            <id  property="id" column="id" />
+            <result property="create_user" column="create_user"/>
+            <result property="create_time" column="create_time"/>
+            <result property="pro_number" column="pro_number"/>
+            <result property="statu" column="statu"/>
+            <result property="predict_time" column="predict_time"/>
+            <association property="org_id"  javaType="TOrganization">
+                <id property="id" column="id"/>
+                <result property="org_name" column="org_name"/>
+                <result property="org_person" column="org_person"/>
+                <result property="org_phone" column="org_phone"/>
+                <result property="org_address" column="org_address"/>
+            </association>
+        </resultMap>
+
+
+    <select id="getAll" resultMap="OrderMap">
+        SELECT * FROM `t_orders`as t1 join t_organization  as t2 on t1.org_id=t2.id
+    </select>
+
+
+
+
+
+
+
+<!--    <resultMap id="OrderMap" type="TOrders">-->
+<!--        <id  property="id" column="id" />-->
+<!--        <result property="create_user" column="create_user"/>-->
+<!--        <result property="create_time" column="create_time"/>-->
+<!--        <result property="pro_number" column="pro_number"/>-->
+<!--        <result property="statu" column="statu"/>-->
+<!--        <result property="predict_time" column="predict_time"/>-->
+<!--        <association property="org_id"  javaType="TOrganization">-->
+<!--            <id property="id" column="id"/>-->
+<!--            <result property="org_name" column="org_name"/>-->
+<!--            <result property="org_person" column="org_person"/>-->
+<!--            <result property="org_phone" column="org_phone"/>-->
+<!--            <result property="org_address" column="org_address"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+
+
+
+
+    <resultMap id="DeMap" type="TOrdersDetail">
+        <id  property="id" column="id" />
+        <result property="order_id" column="order_id"/>
+        <result property="pro_name" column="pro_name"/>
+        <result property="pro_unit" column="pro_unit"/>
+        <result property="wholesale_price" column="wholesale_price"/>
+        <result property="retail_price" column="retail_price"/>
+        <result property="sale_number" column="sale_number"/>
+        <result property="sale_price" column="sale_price"/>
+        <association property="provider_id"  javaType="TProvider">
+            <id property="id" column="id"/>
+            <result property="provider_name" column="provider_name"/>
+            <result property="contact_person" column="contact_person"/>
+            <result property="contact_phone" column="contact_phone"/>
+        </association>
+    </resultMap>
+
+
+
+
+    <select id="Select_ByID" resultMap="DeMap">
+        select * from  `t_orders_detail` s join  t_provider c  on c.id = s.provider_id  where s.order_id=#{id}
+    </select>
+
+
+
+
+    <select id="search_name" resultMap="OrderMap" resultType="TOrders">
+        SELECT * FROM `t_orders` as t  join t_organization  as org    on t.org_id=org.id
+        <where>
+            <if test="select!=null and select!=''">
+                t.org_id=#{select}
+            </if>
+            <if test="statu!=null and statu!=''">
+                and t.statu=#{statu}
+            </if>
+            <if test="date!=null and date!=''">
+                and  t.predict_time=#{date}
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+</mapper>
